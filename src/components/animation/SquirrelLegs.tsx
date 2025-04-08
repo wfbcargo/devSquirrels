@@ -65,8 +65,8 @@ export const SquirrelLegs: FC<IDevSquirrel> = (props) => {
         g.clear()
     }
 
-    return <pixiGraphics draw={(g) => drawSquirrelLegs(g)} scale={props.scale}>
-        <SquirrelLeg x={props.x - footMidOffset - footWidth} y={props.y} scale={props.scale} rotation={rotation}/>
-        <SquirrelLeg x={props.x + footMidOffset} y={props.y} scale={props.scale} rotation={-1 * rotation}/>
+    return <pixiGraphics x={props.x} y={props.y} draw={(g) => drawSquirrelLegs(g)} scale={props.scale}>
+        <SquirrelLeg x={-footMidOffset - footWidth} y={0} scale={props.scale} rotation={rotation}/>
+        <SquirrelLeg x={footMidOffset} y={0} scale={props.scale} rotation={-1 * rotation}/>
     </pixiGraphics>
 }

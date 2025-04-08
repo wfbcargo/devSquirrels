@@ -152,7 +152,7 @@ export const DevSquirrel: FC<IDevSquirrel> = (props) => {
         walkAnimationLastTime.current = 0
     })
 
-    return <pixiGraphics draw={() => {}} scale={props.scale}>
+    return <pixiGraphics x={devSquirrel.x} y={devSquirrel.y} draw={() => {}} scale={props.scale}>
         <SquirrelTail { ...{...devSquirrel, scale: 1} } />
         <SquirrelLegs { ...{...devSquirrel, scale: 1} } />
         <SquirrelBody { ...{...devSquirrel, scale: 1} } />

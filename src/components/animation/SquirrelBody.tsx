@@ -7,23 +7,23 @@ import {
 } from "../../definitions/DevSquirrelBaseDimensions.ts";
 
 export const SquirrelBody : FC<IDevSquirrel> = (props) => {
-    const drawySquirrelBody = (g: Graphics, s: IDevSquirrel) => {
+    const drawySquirrelBody = (g: Graphics) => {
         g.clear()
-        const bodyBaseY = s.y + (headRadius) + bodyHeadOffset
+        const bodyBaseY = (headRadius) + bodyHeadOffset
         // Body
         g.fillStyle = baseColor;
         g.beginPath();
-        g.rect(s.x - (bodyWidth / 2), bodyBaseY, bodyWidth, bodyHeight);
+        g.rect(-(bodyWidth / 2), bodyBaseY, bodyWidth, bodyHeight);
         g.fill()
 
         //Belly
         g.fillStyle = secondaryColor; // brown
         g.beginPath();
-        g.rect(s.x - (bellyWidth / 2), bodyBaseY + bellyBodyOffset, bellyWidth, bellyHeight);
+        g.rect(-(bellyWidth / 2), bodyBaseY + bellyBodyOffset, bellyWidth, bellyHeight);
         g.fill()
     }
 
-    return <pixiGraphics draw={(g) => drawySquirrelBody(g, props)} scale={props.scale}>
+    return <pixiGraphics x={props.x} y={props.y} draw={(g) => drawySquirrelBody(g)} scale={props.scale}>
 
     </pixiGraphics>
 }

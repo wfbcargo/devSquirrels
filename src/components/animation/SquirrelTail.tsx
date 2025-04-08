@@ -13,7 +13,6 @@ import {
 import {useTick} from "@pixi/react";
 
 export const SquirrelTail : FC<IDevSquirrel> = (props) => {
-
     const [tailOffsetX, setTailOffsetX] = useState(0)
     const [tailOffsetY, setTailOffsetY] = useState(0)
 
