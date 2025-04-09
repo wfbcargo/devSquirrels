@@ -4,17 +4,17 @@ import {
     Application,
     extend,
 } from '@pixi/react';
-import { Container, Graphics } from 'pixi.js';
+import {Container, Graphics, Sprite} from 'pixi.js';
+import {AnimationFrame} from "./components/animationFrame.tsx";
 
-extend({ Container, Graphics });
-import {DevSquirrel} from "./components/animation/DevSquirrel.tsx";
+extend({Container, Graphics, Sprite});
 
 function App() {
     const parentRef = useRef<any>(null)
     return (
-        <div style={{width:'100%', height:'100%'}} ref={parentRef}>
+        <div style={{width: '100%', height: '100%'}} ref={parentRef}>
             <Application resizeTo={parentRef}>
-                <DevSquirrel x={50} y={50} scale={1}/>
+                <AnimationFrame/>
             </Application>
         </div>
     )
