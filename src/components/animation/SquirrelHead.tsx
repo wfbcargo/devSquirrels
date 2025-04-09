@@ -8,14 +8,12 @@ import {
     earWidth,
     eyeOffset,
     eyeRadius,
-    eyeYOffset,
-    headRadius,
-    noseRadius,
-    noseYOffset,
-    quadraColor,
-    tertiaryColor
+    headRadius, mouthYOffset,
 } from "../../definitions/DevSquirrelBaseDimensions.ts";
 import {useTick} from "@pixi/react";
+import {SquirrelEar} from "./SquirrelEar.tsx";
+import {SquirrelEye} from "./SquirrelEye.tsx";
+import {SquirrelMouth} from "./SquirrelMouth.tsx";
 
 export enum HeadAnimations {
     Base = "base",
@@ -108,191 +106,43 @@ export const SquirrelHead : FC<IDevSquirrel> = (props) => {
         }
     })
 
-    const drawSquirrelHeadForward = (g: Graphics) => {
-        g.fillStyle = tertiaryColor;
-        // Left Ear
-        g.beginPath();
-        g.rect(-earWidth - earOffset, -(2 * earHeight), earWidth, earHeight);
-        g.fill();
-
-        // Right Ear
-        g.beginPath();
-        g.rect( earOffset, -(2 * earHeight), earWidth, earHeight);
-        g.fill();
-
-        // Head
-        g.fillStyle = baseColor;
-        g.beginPath();
-        g.arc(0, 0, headRadius, 0, Math.PI * 2);
-        g.fill();
-
-        // Mouth
-        const mouthRadius = 8
-        const mouthYOffset = 16
-        g.fillStyle = quadraColor;
-        g.beginPath();
-        g.arc(0, mouthYOffset, mouthRadius, 0, Math.PI * 2);
-        g.fill();
-
-        // Jaw
-        g.fillStyle = tertiaryColor;
-        const jawWidth = 2
-        const jawHeight = 12
-        g.rect(-jawWidth / 2,mouthRadius, jawWidth, jawHeight);
-        g.fill()
-
-        //Nose
-        const noseRadius = 4
-        const noseYOffset = 8
-        g.fillStyle = tertiaryColor;
-        g.beginPath();
-        g.arc(0, noseYOffset, noseRadius, 0, Math.PI * 2);
-        g.fill();
-
-
-        g.fillStyle = tertiaryColor;
-
-        // Left Eye
-        g.beginPath();
-        g.arc(-eyeOffset - eyeRadius, -eyeYOffset, eyeRadius, 0, Math.PI * 2);
-        g.fill();
-
-        // Right Eye
-        g.beginPath();
-        g.arc(eyeOffset + eyeRadius,-eyeYOffset, eyeRadius, 0, Math.PI * 2);
-        g.fill();
-    }
-
-    const drawSquirrelHeadLookLeft = (g: Graphics) => {
-        g.fillStyle = tertiaryColor;
-        // Left Ear
-        g.beginPath();
-        g.rect(-earWidth - earOffset, -(2 * earHeight), earWidth, earHeight);
-        g.fill();
-
-        // Left Eye
-        g.beginPath();
-        g.arc(-eyeOffset - eyeRadius, -eyeYOffset, eyeRadius, 0, Math.PI * 2);
-        g.fill();
-
-        // Head
-        g.fillStyle = baseColor;
-        g.beginPath();
-        g.arc(0, 0, headRadius, 0, Math.PI * 2);
-        g.fill();
-
-        g.fillStyle = tertiaryColor;
-
-        // Right Ear
-        g.beginPath();
-        g.rect(earOffset, -(2 * earHeight), earWidth, earHeight);
-        g.fill();
-
-        // Mouth
-        const mouthRadius = 8
-        const mouthYOffset = 16
-        g.fillStyle = quadraColor;
-        g.beginPath();
-        g.arc(-eyeOffset - eyeRadius - noseYOffset - 4, mouthYOffset, mouthRadius, 0, Math.PI * 2);
-        g.fill();
-
-        // Jaw
-        g.fillStyle = tertiaryColor;
-        const jawWidth = 2
-        const jawHeight = 12
-        g.rect(-eyeOffset - eyeRadius - noseYOffset - jawWidth / 2 - 6, mouthRadius, jawWidth, jawHeight);
-        g.fill()
-
-        //Nose
-        g.fillStyle = tertiaryColor;
-        g.beginPath();
-        g.arc(-eyeOffset - eyeRadius - noseYOffset - 6, noseYOffset, noseRadius, 0, Math.PI * 2);
-        g.fill();
-
-
-        g.fillStyle = tertiaryColor;
-
-        // Right Eye
-        g.beginPath();
-        g.arc(-eyeOffset - eyeRadius, -eyeYOffset, eyeRadius, 0, Math.PI * 2);
-        g.fill();
-    }
-
-    const drawSquirrelHeadLookRight = (g: Graphics) => {
-        g.fillStyle = tertiaryColor;
-
-        // Right Ear
-        g.beginPath();
-        g.rect(earOffset, -(2 * earHeight), earWidth, earHeight);
-        g.fill();
-
-        // Left Eye
-        g.beginPath();
-        g.arc(-eyeOffset - eyeRadius, -eyeYOffset, eyeRadius, 0, Math.PI * 2);
-        g.fill();
-
-        // Head
-        g.fillStyle = baseColor;
-        g.beginPath();
-        g.arc(0, 0, headRadius, 0, Math.PI * 2);
-        g.fill();
-
-        g.fillStyle = tertiaryColor;
-
-        // Left Ear
-        g.beginPath();
-        g.rect(-earWidth - earOffset, -(2 * earHeight), earWidth, earHeight);
-        g.fill();
-
-        // Mouth
-        const mouthRadius = 8
-        const mouthYOffset = 16
-        g.fillStyle = quadraColor;
-        g.beginPath();
-        g.arc(eyeOffset + eyeRadius + noseYOffset + 4, mouthYOffset, mouthRadius, 0, Math.PI * 2);
-        g.fill();
-
-        // Jaw
-        g.fillStyle = tertiaryColor;
-        const jawWidth = 2
-        const jawHeight = 12
-        g.rect(eyeOffset + eyeRadius + noseYOffset + jawWidth / 2 + 6, mouthRadius, jawWidth, jawHeight);
-        g.fill()
-
-        //Nose
-        g.fillStyle = tertiaryColor;
-        g.beginPath();
-        g.arc(eyeOffset + eyeRadius + noseYOffset + 6, noseYOffset, noseRadius, 0, Math.PI * 2);
-        g.fill();
-
-
-        g.fillStyle = tertiaryColor;
-
-        // Right Eye
-        g.beginPath();
-        g.arc(eyeOffset + eyeRadius,  -eyeYOffset, eyeRadius, 0, Math.PI * 2);
-        g.fill();
-    }
-
-    const drawSquirrelHead = (g: Graphics, s: IDevSquirrel) => {
+    const drawSquirrelHead = (g: Graphics) => {
         g.clear()
-        switch (s.direction) {
-            case "forward":
-                drawSquirrelHeadForward(g);
-                break;
-            case "left":
-                drawSquirrelHeadLookLeft(g);
-                break;
-            case "right":
-                drawSquirrelHeadLookRight(g);
-                break;
-            default:
-                drawSquirrelHeadForward(g);
-                break;
-        }
+        g.fillStyle = baseColor;
+        g.beginPath();
+        g.arc(0, 0, headRadius, 0, Math.PI * 2);
+        g.fill();
     }
 
-    return <pixiGraphics x={props.x} y={props.y + headYOffset} draw={(g) => drawSquirrelHead(g, devSquirrel)} scale={props.scale}>
+    if(props.direction === Direction.Left) {
+        return <pixiGraphics x={props.x} y={props.y + headYOffset} draw={() => {}}>
+            <SquirrelEar {...props} x={-earOffset - earWidth} y={-(2 * earHeight)} scale={1}/>
+            <pixiGraphics x={0} y={0} draw={(g) => drawSquirrelHead(g)} scale={props.scale}>
+                <SquirrelEar {...props} x={earOffset} y={-(2 * earHeight)} scale={1} />
+                <SquirrelEye {...props} x={-eyeOffset - eyeRadius} y={-eyeOffset} scale={1} />
+                <SquirrelMouth {...props} x={0} y={mouthYOffset} scale={1} />
+            </pixiGraphics>
+        </pixiGraphics>
+    }
 
+    if(props.direction === Direction.Right) {
+        return <pixiGraphics x={props.x} y={props.y + headYOffset} draw={() => {}}>
+            <SquirrelEar {...props} x={earOffset} y={-(2 * earHeight)} scale={1} />
+            <pixiGraphics x={0} y={0} draw={(g) => drawSquirrelHead(g)} scale={props.scale}>
+                <SquirrelEar {...props} x={-earOffset - earWidth} y={-(2 * earHeight)} scale={1}/>
+                <SquirrelEye {...props} x={eyeOffset + eyeRadius} y={-eyeOffset} scale={1} />
+                <SquirrelMouth {...props} x={0} y={mouthYOffset} scale={1} />
+            </pixiGraphics>
+        </pixiGraphics>
+    }
+
+    return <pixiGraphics x={props.x} y={props.y + headYOffset} draw={() => {}}>
+        <SquirrelEar {...props} x={earOffset} y={-(2 * earHeight)} scale={1} />
+        <SquirrelEar {...props} x={-earOffset - earWidth} y={-(2 * earHeight)} scale={1}/>
+        <pixiGraphics x={0} y={0} draw={(g) => drawSquirrelHead(g)} scale={props.scale}>
+            <SquirrelEye {...props} x={-eyeOffset - eyeRadius} y={-eyeOffset} scale={1} />
+            <SquirrelEye {...props} x={eyeOffset + eyeRadius} y={-eyeOffset} scale={1} />
+            <SquirrelMouth {...props} x={0} y={mouthYOffset} scale={1} />
+        </pixiGraphics>
     </pixiGraphics>
 }

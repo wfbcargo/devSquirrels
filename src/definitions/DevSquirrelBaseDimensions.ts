@@ -30,7 +30,12 @@ export const tailTopRadius = 24
 export const tailTopOffsetX = 0
 
 export const noseRadius = 4
-export const noseYOffset = 8
+export const noseYOffset = -6
 
 export const armWidth = 6
 export const armHeight = 30
+
+export const mouthRadius = 8
+export const mouthYOffset = 16
+export const jawWidth = 2
+export const jawHeight = 8
