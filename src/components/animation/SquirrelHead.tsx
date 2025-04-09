@@ -14,6 +14,7 @@ import {useTick} from "@pixi/react";
 import {SquirrelEar} from "./SquirrelEar.tsx";
 import {SquirrelEye} from "./SquirrelEye.tsx";
 import {SquirrelMouth} from "./SquirrelMouth.tsx";
+import {SquirrelShades} from "./SquirrelShades.tsx";
 
 export enum HeadAnimations {
     Base = "base",
@@ -24,6 +25,7 @@ export const SquirrelHead : FC<IDevSquirrel> = (props) => {
     const [devSquirrel, setDevSquirrel] = useState({...props})
     const [thisAnimation] = useState(HeadAnimations.Base)
     const [headYOffset, setHeadYOffset] = useState(0)
+    const [hasShades] = useState(Math.random() > .7)
 
     useEffect(() => {
         setDevSquirrel({
@@ -121,6 +123,7 @@ export const SquirrelHead : FC<IDevSquirrel> = (props) => {
                 <SquirrelEar {...props} x={earOffset} y={-(2 * earHeight)} scale={1} />
                 <SquirrelEye {...props} x={-eyeOffset - eyeRadius} y={-eyeOffset} scale={1} />
                 <SquirrelMouth {...props} x={0} y={mouthYOffset} scale={1} />
+                {hasShades && <SquirrelShades {...props} x={0} y={0} scale={1}/>}
             </pixiGraphics>
         </pixiGraphics>
     }
@@ -132,6 +135,7 @@ export const SquirrelHead : FC<IDevSquirrel> = (props) => {
                 <SquirrelEar {...props} x={-earOffset - earWidth} y={-(2 * earHeight)} scale={1}/>
                 <SquirrelEye {...props} x={eyeOffset + eyeRadius} y={-eyeOffset} scale={1} />
                 <SquirrelMouth {...props} x={0} y={mouthYOffset} scale={1} />
+                {hasShades && <SquirrelShades {...props} x={0} y={0} scale={1}/>}
             </pixiGraphics>
         </pixiGraphics>
     }
@@ -143,6 +147,7 @@ export const SquirrelHead : FC<IDevSquirrel> = (props) => {
             <SquirrelEye {...props} x={-eyeOffset - eyeRadius} y={-eyeOffset} scale={1} />
             <SquirrelEye {...props} x={eyeOffset + eyeRadius} y={-eyeOffset} scale={1} />
             <SquirrelMouth {...props} x={0} y={mouthYOffset} scale={1} />
+            {hasShades && <SquirrelShades {...props} x={0} y={0} scale={1}/>}
         </pixiGraphics>
     </pixiGraphics>
 }

@@ -7,7 +7,7 @@ import {useApplication} from "@pixi/react";
 
 export const AnimationFrame: FC = () => {
     const [backgroundTexture, setBackgroundTexture] = useState<any>(null)
-    const [backgroundUrl] = useState(nightClubPng)
+    const [backgroundUrl] = useState(forestPng)
 
     const application = useApplication();
 

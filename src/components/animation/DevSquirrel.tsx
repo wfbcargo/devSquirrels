@@ -5,7 +5,8 @@ import {SquirrelBody} from "./SquirrelBody.tsx";
 import {SquirrelArms} from "./SquirrelArms.tsx";
 import {SquirrelLegs} from "./SquirrelLegs.tsx";
 import {SquirrelTail} from "./SquirrelTail.tsx";
-import { useApplication } from '@pixi/react';
+import {useApplication} from '@pixi/react';
+import {walkSpeedMax, walkSpeedMin} from "../../definitions/DevSquirrelBaseDimensions.ts";
 
 export interface IDevSquirrel {
     x: number;
@@ -14,6 +15,7 @@ export interface IDevSquirrel {
     direction?: Direction;
     animation?: Animation;
     rotation?: number;
+    walkSpeed?: number;
 }
 
 export enum Direction {
@@ -24,21 +26,26 @@ export enum Direction {
 
 export enum Animation {
     Idle = "idle",
-    Walk = "walk"
+    Walk = "walk",
+    Dev = "dev",
 }
 
 export const DevSquirrel: FC<IDevSquirrel> = (props) => {
-    const [devSquirrel, setDevSquirrel] = useState<IDevSquirrel>({
-        x: props.x,
-        y: props.y,
-        scale: props.scale,
-        direction: Direction.Forward,
-        animation: Animation.Walk
+    const [devSquirrel, setDevSquirrel] = useState<IDevSquirrel>(() => {
+        const animations = Object.values(Animation)
+        const randomAnimation = animations[Math.floor(Math.random() * animations.length)]
+        return {
+            x: props.x,
+            y: props.y,
+            scale: props.scale,
+            direction: Direction.Forward,
+            animation: randomAnimation
+        }
     })
 
     const application = useApplication();
 
-    const controlTickSpeed = useRef(Math.floor(Math.random() * (15000 - 12000 + 1)) + 12000)
+    const controlTickSpeed = useRef(Math.floor(Math.random() * (15000 - 8000 + 1)) + 8000)
     const controlLastTime = useRef(0)
 
     const idleAnimationTickSpeed = useRef(Math.floor(Math.random() * (1200 - 600 + 1)) + 600)
@@ -53,7 +60,8 @@ export const DevSquirrel: FC<IDevSquirrel> = (props) => {
             y: props.y,
             scale: props.scale,
             direction: props.direction ?? s.direction,
-            animation: props.animation ?? s.animation
+            animation: props.animation ?? s.animation,
+            walkSpeed: props.walkSpeed ?? (Math.random() * (walkSpeedMax - walkSpeedMin + 1) + walkSpeedMin)
         }))
     }, [props.x, props.y, props.scale, props.direction, props.animation])
 
@@ -90,17 +98,20 @@ export const DevSquirrel: FC<IDevSquirrel> = (props) => {
             return
         }
 
-        // get random Direction from Direction enum
-        const randomDirection = Object.values(Direction)[Math.floor(Math.random() * Object.values(Direction).length)]
+        // 40% chance to change direction
+        if (Math.random() < 0.4) {
+            // get random Direction from Direction enum
+            const randomDirection = Object.values(Direction)[Math.floor(Math.random() * Object.values(Direction).length)]
 
-        setDevSquirrel({
-            ...devSquirrel,
-            direction: randomDirection
-        })
+            setDevSquirrel({
+                ...devSquirrel,
+                direction: randomDirection
+            })
+        }
 
         idleAnimationLastTime.current = 0
     })
-    
+
     // Walk animation
     useTick(delta => {
         if (devSquirrel.animation !== Animation.Walk) {
@@ -122,14 +133,13 @@ export const DevSquirrel: FC<IDevSquirrel> = (props) => {
             }
         }
 
-        if(newDirection === Direction.Left) {
+        if (newDirection === Direction.Left) {
             if (devSquirrel.x < 0) {
                 newDirection = Direction.Right
             }
-        }
-        else {
+        } else {
             //check screen edge
-            if (devSquirrel.x > application.app.renderer.width) {
+            if (devSquirrel.x * (1 + devSquirrel.scale) > application.app.renderer.width) {
                 newDirection = Direction.Left
             }
         }
@@ -138,24 +148,25 @@ export const DevSquirrel: FC<IDevSquirrel> = (props) => {
         if (newDirection === Direction.Left) {
             setDevSquirrel(s => ({
                 ...s,
-                direction : newDirection,
-                x: s.x - 20 * delta.deltaMS / 1000
+                direction: newDirection,
+                x: s.x - (devSquirrel.walkSpeed ?? walkSpeedMin) * delta.deltaMS / 1000
             }))
         } else if (newDirection === Direction.Right) {
             setDevSquirrel(s => ({
                 ...s,
-                direction : newDirection,
-                x: s.x + 20 * delta.deltaMS / 1000
+                direction: newDirection,
+                x: s.x + (devSquirrel.walkSpeed ?? walkSpeedMin) * delta.deltaMS / 1000
             }))
         }
         walkAnimationLastTime.current = 0
     })
 
-    return <pixiGraphics x={devSquirrel.x} y={devSquirrel.y} draw={() => {}} scale={props.scale}>
-        <SquirrelTail { ...{...devSquirrel, scale: 1} } />
-        <SquirrelLegs { ...{...devSquirrel, scale: 1} } />
-        <SquirrelBody { ...{...devSquirrel, scale: 1} } />
-        <SquirrelArms { ...{...devSquirrel, scale: 1} } />
-        <SquirrelHead { ...{...devSquirrel, scale: 1} } />
+    return <pixiGraphics x={devSquirrel.x} y={devSquirrel.y} draw={() => {
+    }} scale={props.scale}>
+        <SquirrelTail {...{...devSquirrel, scale: 1}} />
+        <SquirrelLegs {...{...devSquirrel, scale: 1}} />
+        <SquirrelBody {...{...devSquirrel, scale: 1}} />
+        <SquirrelArms {...{...devSquirrel, scale: 1}} />
+        <SquirrelHead {...{...devSquirrel, scale: 1}} />
     </pixiGraphics>
 }

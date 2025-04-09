@@ -39,3 +39,6 @@ export const mouthRadius = 8
 export const mouthYOffset = 16
 export const jawWidth = 2
 export const jawHeight = 8
+
+export const walkSpeedMin = 14
+export const walkSpeedMax = 24
